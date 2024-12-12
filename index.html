@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="clock-container">
+        <span></span>
+      </div>
+      <div id="quotes-panel">
+        <span></span>
+      </div>
+      <div id="weather-container">
+        <span>Waiting...</span>
+      </div>
+      <div id="todo-container">
+        <form id="input-box">
+          <input type="text" placeholder="Please, input you have to do." required/>
+          <input type="submit" value="Go"/>
+        </form>
+      </div>
+    </div>
+    <script type="module" src="/src/clock.js"></script>
+    <script type="module" src="/src/quotes.js"></script>
+    <script type="module" src="/src/weather.js"></script>
+    <script type="module" src="/src/todo.js"></script>
+  </body>
+</html>
