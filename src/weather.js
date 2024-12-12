@@ -1,4 +1,4 @@
-const WEATHER_API = '394411fb0d6f73c5e2b089ab9f30d575';
+import { WEATHER_API } from "./apikey";
 
 const weather = document.querySelector("#weather-container span");
 
