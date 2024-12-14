@@ -152,12 +152,22 @@ const quotes = [
   }
 ];
 
-const quotespanel = document.querySelector("#quotes-panel span");
+const quotespanelcontainer = document.querySelector("#quotes-panel");
+const quotespanel = document.querySelectorAll("#quotes-panel div");
 
 function updateQuotes() {
   const quotes_obj = quotes[Math.floor(Math.random() * quotes.length)];
-  quotespanel.innerHTML = `${quotes_obj.words} - ${quotes_obj.speaker}`;
+  quotespanel[0].innerHTML = `${quotes_obj.words}`;
+  quotespanel[1].innerHTML = `- ${quotes_obj.speaker} -`; 
+
+  quotespanelcontainer.classList.remove('fade-out');
+  quotespanelcontainer.classList.add('fade-in');
+
+  setTimeout(()=>{
+    quotespanelcontainer.classList.add('fade-out');
+    quotespanelcontainer.classList.remove('fade-in');
+  }, 7000)
 }
 
-setInterval(() => { updateQuotes(); }, 5000);
+setInterval(() => { updateQuotes(); }, 8000);
 updateQuotes();

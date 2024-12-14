@@ -1,21 +1,22 @@
-const TODO_KEYNAME = "todo";
+const currentUser = localStorage.getItem("myName");
+
+const TODO_KEYNAME = currentUser ? `todo-${currentUser}` : 'todo-anonymous';
 
 const todo = document.querySelector('#todo-container #input-box');
 const todolist = document.querySelector('#todo-container #todo-list');
 
-let myTodo = {};
-
-function saveStorage(obj) {
-  localStorage.setItem(TODO_KEYNAME, JSON.stringify(obj));
+function getToDoList() {
+  return JSON.parse(localStorage.getItem(TODO_KEYNAME)); 
 }
 
-function loadStorage(key) {
-  return localStorage.getItem(TODO_KEYNAME);
+function saveToDoList(todoList) {
+  return localStorage.setItem(TODO_KEYNAME, JSON.stringify(todoList)); 
 }
 
 function drawTodoList() {
   todolist.innerHTML = '';
-  myTodo.list.forEach(elem => {
+  const myTodo = getToDoList() ?? [];
+  myTodo.forEach(elem => {
     const li = document.createElement('li');
     li.id = elem.id;
     const span = document.createElement('span');
@@ -24,7 +25,6 @@ function drawTodoList() {
     const btn = document.createElement('button');
     btn.innerText = "X";
     btn.addEventListener("click", (e) => { 
-      console.log(e.target.parentElement.id);
       removeTodo(e.target.parentElement.id);
     });
     li.appendChild(btn);
@@ -32,20 +32,52 @@ function drawTodoList() {
   });
 }
 
+function appendTodo(value) {
+  let myTodo = getToDoList() ?? [];
+  console.log(myTodo);
+  myTodo = [...myTodo, { id: Date.now(), content: value }];
+  saveToDoList(myTodo);
+  drawTodoList();
+}
+
+function removeTodo(id) {
+  let myTodo = getToDoList() ?? [];
+  myTodo = [...myTodo.filter(elem => parseInt(elem.id) !== parseInt(id))];
+  saveToDoList(myTodo);
+  drawTodoList();
+}
+
+todo.addEventListener("submit", (e) => {
+  e.preventDefault();
+  appendTodo(e.target[0].value);
+  e.target[0].value = '';
+});
+
+drawTodoList();
+
+/*
+let myTodo = {};
+
+function saveStorage(obj) {
+  localStorage.setItem(TODO_KEYNAME, JSON.stringify(obj));
+}
+
+function loadStorage() {
+  return localStorage.getItem(TODO_KEYNAME);
+}
+
+
+
 function initStorage() {
-  const todo = localStorage.getItem(TODO_KEYNAME);
-  if (todo === null) {
+  const todoContents = loadStorage();
+  if (todoContents === null) {
     const base_format = { list: [] };
     saveStorage(base_format);
   }
   
-  myTodo = { ...JSON.parse(todo) };
-  console.log(myTodo);
-
+  myTodo = { ...JSON.parse(todoContents) };
   drawTodoList();
 }
-
-
 
 function appendTodo(value) {
   myTodo.list = [...myTodo.list, { id: Date.now(), content: value }];
@@ -53,20 +85,10 @@ function appendTodo(value) {
   drawTodoList();
 }
 
-function removeTodo(id) {
-  myTodo.list = [...myTodo.list.filter(elem => parseInt(elem.id) !== parseInt(id))];
-  saveStorage(myTodo);
-  drawTodoList();
-}
+
 
 initStorage();
 
-todo.addEventListener("submit", (e) => {
-  e.preventDefault();
-  appendTodo(e.target[0].value);
-  e.target[0].value = '';
 
 
-});
-
-
+*/
